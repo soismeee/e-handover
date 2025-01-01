@@ -8,8 +8,8 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Formulir Serah Terima Pasien</h4>
-                <p class="card-title-desc">Anda dapat mengisi formulir serah terima pasien dengan mengisi form yang ada dibawah ini, data yang telah di inputkan bisa dilihat pada menu Daftar Hand Over.</p>
+                <h4 class="card-title">Formulir edit Serah Terima Pasien</h4>
+                <p class="card-title-desc">Anda dapat mengubah formulir serah terima pasien dengan mengisi form yang ada dibawah ini, data yang telah di diubah bisa dilihat pada menu Daftar Hand Over.</p>
             </div>
             <div class="card-body">
                 <div class="container mt-5">
@@ -19,19 +19,19 @@
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label for="no_rm" class="form-label">No RM</label>
-                                <input type="text" class="form-control" id="no_rm" name="no_rm" required>
+                                <input type="text" class="form-control" id="no_rm" name="no_rm" value="{{ $handover->no_rm }}" required>
                             </div>
                     
                             <div class="col-md-4">
                                 <label for="nama_pasien" class="form-label">Nama Pasien</label>
-                                <input type="text" class="form-control" id="nama_pasien" name="nama_pasien" required>
+                                <input type="text" class="form-control" id="nama_pasien" name="nama_pasien" value="{{ $handover->nama_pasien }}" required>
                             </div>
                     
                             <div class="col-md-4">
                                 <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                                 <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
-                                    <option value="L">Laki-laki</option>
-                                    <option value="P">Perempuan</option>
+                                    <option value="L" {{ $handover->jenis_kelamin == "L" ? "selected" : "" }}>Laki-laki</option>
+                                    <option value="P" {{ $handover->jenis_kelamin == "P" ? "selected" : "" }}>Perempuan</option>
                                 </select>
                             </div>
                         </div>
@@ -39,122 +39,122 @@
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $handover->tanggal_lahir }}" required>
                             </div>
                     
                             <div class="col-md-4">
                                 <label for="tanggal_masuk" class="form-label">Tanggal Masuk</label>
-                                <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk" value="{{ date('Y-m-d') }}" required>
+                                <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk" value="{{ $handover->tanggal_masuk }}" required>
                             </div>
                     
                             <div class="col-md-4">
                                 <label for="ruang" class="form-label">Ruang</label>
-                                <input type="text" class="form-control" id="ruang" name="ruang" required>
+                                <input type="text" class="form-control" id="ruang" name="ruang" value="{{ $handover->ruang }}" required>
                             </div>
                         </div>
                 
                         <div class="mb-3">
                             <label for="dpjp" class="form-label">DPJP</label>
-                            <input type="text" class="form-control" id="dpjp" name="dpjp" required>
+                            <input type="text" class="form-control" id="dpjp" name="dpjp" value="{{ $handover->dpjp }}" required>
                         </div>
                 
                         <div class="mb-3">
                             <label for="diagnosa_masuk" class="form-label">Diagnosa Masuk</label>
-                            <textarea class="form-control" id="diagnosa_masuk" name="diagnosa_masuk" rows="3"></textarea>
+                            <textarea class="form-control" id="diagnosa_masuk" name="diagnosa_masuk" rows="3">{{ $handover->diagnosa_masuk }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="keluhan_saat_ini" class="form-label">Keluhan Saat Ini</label>
-                            <textarea class="form-control" id="keluhan_saat_ini" name="keluhan_saat_ini" rows="3"></textarea>
+                            <textarea class="form-control" id="keluhan_saat_ini" name="keluhan_saat_ini" rows="3">{{ $handover->keluhan_saat_ini }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="riwayat_penyakit_dahulu" class="form-label">Riwayat Penyakit Dahulu</label>
-                            <textarea class="form-control" id="riwayat_penyakit_dahulu" name="riwayat_penyakit_dahulu" rows="3"></textarea>
+                            <textarea class="form-control" id="riwayat_penyakit_dahulu" name="riwayat_penyakit_dahulu" rows="3">{{ $handover->riwayat_penyakit_dahulu }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="therapi_dari_dpjp" class="form-label">Therapi dari DPJP</label>
-                            <textarea class="form-control" id="therapi_dari_dpjp" name="therapi_dari_dpjp" rows="3"></textarea>
+                            <textarea class="form-control" id="therapi_dari_dpjp" name="therapi_dari_dpjp" rows="3">{{ $handover->therapi_dari_dpjp }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="alergi" class="form-label">Alergi</label>
-                            <textarea class="form-control" id="alergi" name="alergi" rows="3"></textarea>
+                            <textarea class="form-control" id="alergi" name="alergi" rows="3">{{ $handover->alergi }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="kesadaran" class="form-label">Kesadaran</label>
-                            <input type="text" class="form-control" id="kesadaran" name="kesadaran">
+                            <input type="text" class="form-control" id="kesadaran" name="kesadaran" value="{{ $handover->kesadaran }}">
                         </div>
                 
                         <div class="mb-3 row">
                             <div class="col-md-3">
                                 <label for="td" class="form-label">TD</label>
-                                <input type="text" class="form-control" id="td" name="td">
+                                <input type="text" class="form-control" id="td" name="td" value="{{ $handover->td }}">
                             </div>
                             <div class="col-md-3">
                                 <label for="nadi" class="form-label">Nadi</label>
-                                <input type="text" class="form-control" id="nadi" name="nadi">
+                                <input type="text" class="form-control" id="nadi" name="nadi" value="{{ $handover->nadi }}">
                             </div>
                             <div class="col-md-3">
                                 <label for="nafas" class="form-label">Nafas</label>
-                                <input type="text" class="form-control" id="nafas" name="nafas">
+                                <input type="text" class="form-control" id="nafas" name="nafas" value="{{ $handover->nafas }}">
                             </div>
                             <div class="col-md-3">
                                 <label for="suhu" class="form-label">Suhu</label>
-                                <input type="text" class="form-control" id="suhu" name="suhu">
+                                <input type="text" class="form-control" id="suhu" name="suhu" value="{{ $handover->suhu }}">
                             </div>
                         </div>
                 
                         <div class="mb-3">
                             <label for="gcs" class="form-label">GCS</label>
-                            <input type="text" class="form-control" id="gcs" name="gcs">
+                            <input type="text" class="form-control" id="gcs" name="gcs" value="{{ $handover->gcs }}">
                         </div>
                 
                         <div class="mb-3">
                             <label for="pemeriksaan_fisik" class="form-label">Pemeriksaan Fisik</label>
-                            <textarea class="form-control" id="pemeriksaan_fisik" name="pemeriksaan_fisik" rows="3"></textarea>
+                            <textarea class="form-control" id="pemeriksaan_fisik" name="pemeriksaan_fisik" rows="3">{{ $handover->pemeriksaan_fisik }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="hasil_lab_abnormal" class="form-label">Hasil Lab (Abnormal)</label>
-                            <textarea class="form-control" id="hasil_lab_abnormal" name="hasil_lab_abnormal" rows="3"></textarea>
+                            <textarea class="form-control" id="hasil_lab_abnormal" name="hasil_lab_abnormal" rows="3">{{ $handover->hasil_lab_abnormal }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="iv_line_fluids" class="form-label">IV Line/Fluids</label>
-                            <textarea class="form-control" id="iv_line_fluids" name="iv_line_fluids" rows="3"></textarea>
+                            <textarea class="form-control" id="iv_line_fluids" name="iv_line_fluids" rows="3">{{ $handover->iv_line_fluids }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="pemeriksaan_penunjang" class="form-label">Pemeriksaan Penunjang</label>
-                            <textarea class="form-control" id="pemeriksaan_penunjang" name="pemeriksaan_penunjang" rows="3"></textarea>
+                            <textarea class="form-control" id="pemeriksaan_penunjang" name="pemeriksaan_penunjang" rows="3">{{ $handover->pemeriksaan_penunjang }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="tindakan_keperawatan" class="form-label">Tindakan Keperawatan</label>
-                            <textarea class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan" rows="3"></textarea>
+                            <textarea class="form-control" id="tindakan_keperawatan" name="tindakan_keperawatan" rows="3">{{ $handover->tindakan_keperawatan }}</textarea>
                         </div>
                 
                         <div class="mb-3">
                             <label for="intruksi_dokter" class="form-label">Instruksi Dokter</label>
-                            <textarea class="form-control" id="intruksi_dokter" name="intruksi_dokter" rows="3"></textarea>
+                            <textarea class="form-control" id="intruksi_dokter" name="intruksi_dokter" rows="3">{{ $handover->intruksi_dokter }}</textarea>
                         </div>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="pemberi_operan" class="form-label">Pemberi Operan</label>
-                                <input type="text" class="form-control" id="pemberi_operan" name="pemberi_operan">
+                                <input type="text" class="form-control" id="pemberi_operan" name="pemberi_operan" value="{{ $handover->pemberi_operan }}">
                             </div>
                     
                             <div class="col-md-6">
                                 <label for="penerima_operan" class="form-label">Penerima Operan</label>
-                                <input type="text" class="form-control" id="penerima_operan" name="penerima_operan">
+                                <input type="text" class="form-control" id="penerima_operan" name="penerima_operan" value="{{ $handover->penerima_operan }}">
                             </div>
                         </div>
                 
-                        <button type="submit" class="btn btn-primary" id="tombol">Simpan</button>
+                        <button type="submit" class="btn btn-primary" id="tombol">Ubah Data</button>
                     </form>
                 </div>
             </div>
@@ -175,8 +175,8 @@
             event.preventDefault();
             $('#tombol').html('Loading...');
             $.ajax({
-                type: "POST",
-                url: "{{ url('/save') }}",
+                type: "PATCH",
+                url: "{{ url('/change') }}/{{ $handover->id }}",
                 data: $('#form-handover').serialize(),
                 success: function(response){
                     $('#tombol').html("Simpan");

@@ -19,6 +19,7 @@
         <!-- App Css-->
         <link href="/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
+        @stack('css')
     </head>
 
     <body data-layout="horizontal">
@@ -120,6 +121,6 @@
         <script src="/assets/libs/node-waves/waves.min.js"></script>
         <script src="/assets/libs/feather-icons/feather.min.js"></script>
         
-        
+        @stack('js')
     </body>
 </html>
