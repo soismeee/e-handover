@@ -18,7 +18,7 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-12">
                         <h4 class="card-title">{{ $title }}</h4>
-                        <span>Data serah terima pasien, anda bisa mencari data berdasarkan bulan</span>
+                        <span>Data serah terima pasien, anda bisa mencari data berdasarkan tanggal</span>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <input type="date" class="form-control" name="tanggal" id="tanggal" value="{{ date('Y-m-d') }}">
@@ -31,17 +31,15 @@
 
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Pasien</th>
-                                <th>Data Pasien</th>
-                                <th>Tgl masuk & ruang</th>
-                                <th>DPJP</th>
-                                <th>Situation</th>
-                                <th>Background</th>
-                                <th>Assesment</th>
-                                <th>Recomendation</th>
-                                <th>Operan</th>
-                                <th>#</th>
+                                <th class="text-center" width="5%">No</th>
+                                <th class="text-center" width="10%">Data Pasien</th>
+                                <th class="text-center" width="10%">Ruang</th>
+                                <th class="text-center" width="10%">Situation (S)</th>
+                                <th class="text-center" width="10%">Background (B)</th>
+                                <th class="text-center" width="20%">Assesment (A)</th>
+                                <th class="text-center" width="20%">Recomendation (R)</th>
+                                <th class="text-center" width="10%">Operan</th>
+                                <th class="text-center" width="5%">#</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,39 +93,28 @@
                     "targets": "_all",
                     "defaultContent": "-",
                     "render": function(data, type, row, meta){
-                        return row.nama_pasien + " (" + row.no_rm + ")"
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return "" + row.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan"
-                        + "<br />" + new Date(row.tanggal_lahir).toLocaleDateString('id-ID', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                        })
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        // return row.tanggal_masuk
                         let tanggal_masuk = new Date(row.tanggal_masuk).toLocaleDateString('id-ID', {
                             day: '2-digit',
                             month: 'short',
                             year: 'numeric',
-                        })
-                        return tanggal_masuk + "<br /> (" + row.ruang + ")"
+                        });
+
+                        let tgl_lahir = new Date(row.tanggal_lahir).toLocaleDateString('id-ID', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                        });
+
+                        let jekel = row.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan";
+                        return row.nama_pasien + " (" + row.no_rm + ") <br />" +
+                        jekel + " (" + tgl_lahir +")<br />" + tanggal_masuk + "<br />" + row.dpjp
                     }
                 },
                 {
                     "targets": "_all",
                     "defaultContent": "-",
                     "render": function(data, type, row, meta){
-                        return row.dpjp
+                        return row.ruang
                     }
                 },
                 {
@@ -174,10 +161,9 @@
                     "defaultContent": "-",
                     "render": function(data, type, row, meta){
                         return `
-                        <div class="btn-group">
                             <a href="/hand-over/`+row.id+`" class="btn btn-sm btn-warning"><i class="bx bx-edit"></i></a>
+                            <br />    
                             <a href="" class="btn btn-sm btn-danger hapus" data-id="`+row.id+`"><i class="bx bx-trash"></i></a>
-                        </div>
                         ` 
                     }
                 },
