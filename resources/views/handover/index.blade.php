@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" id="data-hand-over">
                     <table id="data-handover" class="table table-striped mb-0">
 
                         <thead>
@@ -67,115 +67,220 @@
 
     <script src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>
     <script>
-        const table = $('#data-handover').DataTable({          
-            "lengthMenu": [[5, 10, 25, 50, 100, -1],[5, 10, 25, 50, 100, 'All']],
-            "pageLength": 10, 
-            processing: true,
-            serverSide: true,
-            responseive: true,
-            ajax: {
-                url:"{{ url('jsonHandOver') }}",
-                type:"POST",
-                data:function(d){
-                    d._token = "{{ csrf_token() }}",
-                    d.tanggal = $("#tanggal").val()
-                }
-            },
-            columns:[
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        let tanggal_masuk = new Date(row.tanggal_masuk).toLocaleDateString('id-ID', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                        });
+        // const table = $('#data-handover').DataTable({          
+        //     "lengthMenu": [[5, 10, 25, 50, 100, -1],[5, 10, 25, 50, 100, 'All']],
+        //     "pageLength": 10, 
+        //     processing: true,
+        //     serverSide: true,
+        //     responseive: true,
+        //     ajax: {
+        //         url:"{{ url('jsonHandOver') }}",
+        //         type:"POST",
+        //         data:function(d){
+        //             d._token = "{{ csrf_token() }}",
+        //             d.tanggal = $("#tanggal").val()
+        //         }
+        //     },
+        //     columns:[
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return meta.row + meta.settings._iDisplayStart + 1;
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 let tanggal_masuk = new Date(row.tanggal_masuk).toLocaleDateString('id-ID', {
+        //                     day: '2-digit',
+        //                     month: 'short',
+        //                     year: 'numeric',
+        //                 });
 
-                        let tgl_lahir = new Date(row.tanggal_lahir).toLocaleDateString('id-ID', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                        });
+        //                 let tgl_lahir = new Date(row.tanggal_lahir).toLocaleDateString('id-ID', {
+        //                     day: '2-digit',
+        //                     month: 'short',
+        //                     year: 'numeric',
+        //                 });
 
-                        let jekel = row.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan";
-                        return row.nama_pasien + " (" + row.no_rm + ") <br />" +
-                        jekel + " (" + tgl_lahir +")<br />" + tanggal_masuk + "<br />" + row.dpjp
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return row.ruang
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return "Diagnosa : " + row.diagnosa_masuk + "<br /> Keluhan : " + row.keluhan_saat_ini
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return "Riwayat : " + row.riwayat_penyakit_dahulu + "<br /> Therapi : " + row.therapi_dari_dpjp + "<br /> Therapi : " + row.alergi
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return "Kesadaran <br />" + row.riwayat_penyakit_dahulu + "; TD : " + row.td + "; Nadi : " + row.nadi + "; Nafas : " + row.nafas + "; Suhu : " + row.suhu
-                        + "<br /> P. Fisik : " + row.pemeriksaan_fisik
-                        + "<br /> Hasil Lab : " + row.hasil_lab_abnormal
-                        + "<br /> Live Fluids : " + row.iv_line_fluids
-                        + "<br /> P. Penunjang : " + row.pemeriksaan_penunjang
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return "Tindakan : " + row.tindakan_keperawatan + "<br />Intruksi : " + row.intruksi_dokter 
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return "Pemberi : " + row.pemberi_operan + "<br />Penerima : " + row.penerima_operan 
-                    }
-                },
-                {
-                    "targets": "_all",
-                    "defaultContent": "-",
-                    "render": function(data, type, row, meta){
-                        return `
-                            <a href="/hand-over/`+row.id+`" class="btn btn-sm btn-warning"><i class="bx bx-edit"></i></a>
-                            <br />    
-                            <a href="" class="btn btn-sm btn-danger hapus" data-id="`+row.id+`"><i class="bx bx-trash"></i></a>
-                        ` 
-                    }
-                },
+        //                 let jekel = row.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan";
+        //                 return row.nama_pasien + " (" + row.no_rm + ") <br />" +
+        //                 jekel + " (" + tgl_lahir +")<br />" + tanggal_masuk + "<br />" + row.dpjp
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return row.ruang
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return "Diagnosa : " + row.diagnosa_masuk + "<br /> Keluhan : " + row.keluhan_saat_ini
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return "Riwayat : " + row.riwayat_penyakit_dahulu + "<br /> Therapi : " + row.therapi_dari_dpjp + "<br /> Therapi : " + row.alergi
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return "Kesadaran <br />" + row.riwayat_penyakit_dahulu + "; TD : " + row.td + "; Nadi : " + row.nadi + "; Nafas : " + row.nafas + "; Suhu : " + row.suhu
+        //                 + "<br /> P. Fisik : " + row.pemeriksaan_fisik
+        //                 + "<br /> Hasil Lab : " + row.hasil_lab_abnormal
+        //                 + "<br /> Live Fluids : " + row.iv_line_fluids
+        //                 + "<br /> P. Penunjang : " + row.pemeriksaan_penunjang
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return "Tindakan : " + row.tindakan_keperawatan + "<br />Intruksi : " + row.intruksi_dokter 
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return "Pemberi : " + row.pemberi_operan + "<br />Penerima : " + row.penerima_operan 
+        //             }
+        //         },
+        //         {
+        //             "targets": "_all",
+        //             "defaultContent": "-",
+        //             "render": function(data, type, row, meta){
+        //                 return `
+        //                     <a href="/hand-over/`+row.id+`" class="btn btn-sm btn-warning"><i class="bx bx-edit"></i></a>
+        //                     <br />    
+        //                     <a href="" class="btn btn-sm btn-danger hapus" data-id="`+row.id+`"><i class="bx bx-trash"></i></a>
+        //                 ` 
+        //             }
+        //         },
 
                 
-            ]
+        //     ]
+        // });
+
+        $(document).ready(function(){
+            loading();
+            loaddata();
         });
 
-        $(document).on('change', '#bulan', function(e){
-            e.preventDefault();
-            table.ajax.reload();  // For reloading the table
-        })
+        function loading(){
+            $('#data-hand-over table tbody').append(
+                `
+                <tr>
+                    <td colspan="9" class="text-center" id="loading">Loading...</td>    
+                </tr>
+                `
+            )
+        }
+
+        $(document).on('change', '#tanggal', function(e){
+            // $('#data-hand-over table tbody').empty();
+            // loading();
+            loaddata();
+        });
+
+        function formatTanggal(tanggal) {
+            if (!tanggal) return "Belum tersedia"; // Jika tanggal null atau undefined
+            let date = new Date(tanggal); // Konversi string tanggal ke objek Date
+            let day = String(date.getDate()).padStart(2, '0'); // Hari dengan 2 digit
+            let month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dengan 2 digit
+            let year = date.getFullYear(); // Tahun
+            return `${day}/${month}/${year}`; // Format dd-mm-yyyy
+        }
+
+        function formatTime(dateString) {
+            // Ubah string menjadi objek Date
+            let date = new Date(dateString);
+
+            // Ambil jam, menit, dan detik
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+
+            // Tambahkan angka nol di depan angka jika kurang dari 10
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            // Format waktu dalam format HH:mm:ss
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        function loaddata(){
+            $.ajax({
+                url: "{{ url('getHandOver') }}",
+                type: "GET",
+                data: {_token: "{{ csrf_token() }}", 'tanggal' : $('#tanggal').val()},
+                success: function(response){
+                    $('#loading').hide();
+                    let data = response.data;
+                    data.forEach((params, index) => {
+
+                        let tanggal_masuk = new Date(params.tanggal_masuk).toLocaleDateString('id-ID', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                        });
+
+                        let tgl_lahir = new Date(params.tanggal_lahir).toLocaleDateString('id-ID', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                        });
+
+                        let jekel = params.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan";
+                        // ###################################################################################
+
+                        $('#data-hand-over table tbody').append(
+                            `
+                            <tr>
+                                <td>${index+1}</td>    
+                                <td>
+                                    ${params.nama_pasien}  ( ${params.no_rm} ) <br />
+                                    ${jekel} (${tgl_lahir})    
+                                </td>   
+                                <td>${params.ruang} <br /> ${tanggal_masuk} <br /> ${params.dpjp}</td>   
+                                <td>Diagnosa : ${params.diagnosa_masuk} <br /> Keluhan :  ${params.keluhan_saat_ini}</td>   
+                                <td>Riwayat : ${params.riwayat_penyakit_dahulu} <br /> Therapi : ${params.therapi_dari_dpjp} <br /> Therapi : ${params.alergi} </td>
+                                <td>
+                                    Kesadaran <br /> ${params.riwayat_penyakit_dahulu}; TD :  ${params.td}; Nadi :  ${params.nadi}; Nafas :  ${params.nafas}; Suhu :  ${params.suhu}
+                                    <br /> P. Fisik :  ${params.pemeriksaan_fisik}
+                                    <br /> Hasil Lab :  ${params.hasil_lab_abnormal}
+                                    <br /> Live Fluids :  ${params.iv_line_fluids}
+                                    <br /> P. Penunjang :  ${params.pemeriksaan_penunjang}    
+                                </td>   
+                                <td>Tindakan : ${params.tindakan_keperawatan} <br />Intruksi : ${params.intruksi_dokter}</td>   
+                                <td>Pemberi :  ${params.pemberi_operan} <br />Penerima : ${params.penerima_operan}</td>   
+                                <td>
+                                    <a href="/hand-over/${params.id}" class="btn btn-sm btn-warning"><i class="bx bx-edit"></i></a>
+                                    <br />    
+                                    <a href="" class="btn btn-sm btn-danger hapus" data-id="${params.id}"><i class="bx bx-trash"></i></a>
+                                </td>
+                            </tr>
+                            `
+                        )
+                    });
+                },
+                error: function(err){
+                    // $('#loading').show();
+                    // $('#loading').text(err.responseJSON.message);
+                }
+            });
+        }
 
         $(document).on('click', '.hapus', function(e){
             e.preventDefault();
@@ -213,5 +318,7 @@
                 }
             });
         });
+
+
     </script>
 @endpush

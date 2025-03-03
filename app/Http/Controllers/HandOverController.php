@@ -138,6 +138,16 @@ class HandOverController extends Controller
         ]);
     }
 
+    public function getHandOver(){
+        $tanggal = request('tanggal');
+        $data = HandOver::whereDate('created_at', $tanggal)->orderBy('created_at', 'desc')->get();
+        if (count($data) > 0) {
+            return response()->json(['statusCode' => 200, 'data' => $data]);
+        } else {
+            return response()->json(['statusCode' => 400,'message' => 'Data tidak ditemukan'], 400);
+        }
+    }
+
     public function destroy($id){
         HandOver::destroy($id);
         return response()->json(['statusCode' => 200,'message' => 'Data berhasil dihapus']);

@@ -12,7 +12,7 @@
                 <p class="card-title-desc">Anda dapat mengisi formulir serah terima pasien dengan mengisi form yang ada dibawah ini, data yang telah di inputkan bisa dilihat pada menu Daftar Hand Over.</p>
             </div>
             <div class="card-body">
-                <div class="container mt-5">
+                <div class="container">
                     <form id="form-handover">
                         <!-- CSRF Token -->
                         @csrf
